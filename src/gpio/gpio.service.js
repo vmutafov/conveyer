@@ -12,8 +12,8 @@ module.exports = class GpioService {
             // TODO: setup other pins
 
             return new GpioResult(true, "Successfully setup gpio pins!");
-        } catch {
-            return new GpioResult(false, "Could not setup gpio pins!");
+        } catch (e) {
+            return new GpioResult(false, `Could not setup gpio pins because of: ${e.message || e.toString()}!`);
         }
     }
 
