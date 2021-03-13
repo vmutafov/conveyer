@@ -8,7 +8,7 @@ const TURN_OFF_COMMAND = 'turn off';
 module.exports = class GpioService {
     async trySetupGpioPins() {
         try {
-            await Gpio.setup(GpioIds.motor, Gpio.DIR_LOW)
+            await Gpio.setup(GpioIds.motor, Gpio.DIR_OUT);
             // TODO: setup other pins
 
             return new GpioResult(true, "Successfully setup gpio pins!");
