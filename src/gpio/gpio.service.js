@@ -8,7 +8,7 @@ const TURN_OFF_COMMAND = 'turn off';
 module.exports = class GpioService {
     async trySetupGpioPins() {
         try {
-            await Gpio.setup(GpioIds.motor, Gpio.DIR_OUT);
+            await Gpio.setup(GpioIds.motor, Gpio.DIR_LOW);
             // TODO: setup other pins
 
             return new GpioResult(true, "Successfully setup gpio pins!");
@@ -34,9 +34,9 @@ module.exports = class GpioService {
         
         try {
             if (command === TURN_OFF_COMMAND) {
-                await Gpio.write(gpioId, false);
-            } else if (command === TURN_ON_COMMAND) {
                 await Gpio.write(gpioId, true);
+            } else if (command === TURN_ON_COMMAND) {
+                await Gpio.write(gpioId, false);
             }
         } catch (e) {
             return new GpioResult(false, `Error writing gpio: ${gpioId} because of: ${e.message || e.toString()}`);

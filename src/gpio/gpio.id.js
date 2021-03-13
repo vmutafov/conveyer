@@ -1,5 +1,5 @@
 module.exports = {
-    motor: 17,
+    motor: 11,
     paintGun: 2,
     drierGun: 3,
 }
