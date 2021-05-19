@@ -5,7 +5,7 @@ const fileName = '/dev/input/mice';
 const toSigned = (n) => n - ((0x80 & n) << 1);
 
 
-module.exports = class MovementDetector {
+module.exports = class MouseHallListener {
     constructor(movementService) {
         this.movementService = movementService;
     }
@@ -52,10 +52,8 @@ module.exports = class MovementDetector {
                         }
 
                         this.movementService.onMovement(dx);
-
-                        console.log(this.movementService.getAngle());
     
-                        // console.log(`Event: Status: ${status}  dx: ${dx}  dy: ${dy}`);
+                        console.log(`Event: Status: ${status}  dx: ${dx}  dy: ${dy}`);
                     }
     
                 }

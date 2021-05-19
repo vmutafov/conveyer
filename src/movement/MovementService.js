@@ -1,19 +1,28 @@
 module.exports = class MovementService {
-
     constructor() {
         this.steps = 0;
-        this.totalSteps = 0;
+        this.lastIterationSteps = 0;
         this.hallSensorPasses = 0;
     }
 
+    setOnAngleReachedCallback(angle, onAngleReachedCallback) {
+        this.angleToReach = angle;
+        this.onAngleReachedCallback = onAngleReachedCallback;
+    }
+
     onHallCallbackReached() {
-        this.totalSteps = this.steps;
+        this.lastIterationSteps = this.steps;
         this.steps = 0;
         this.hallSensorPasses += 1;
     }
 
     onMovement(dx) {
         this.steps += dx;
+        const currentAngle = this.getAngle();
+        // const currentAngle = 30;
+        if (this.onAngleReachedCallback && this.angleToReach === currentAngle) {
+            this.onAngleReachedCallback(this.angleToReach);
+        }
     }
 
     getAngle() {
@@ -21,7 +30,7 @@ module.exports = class MovementService {
         //     throw new Error("Not calibrated!");
         // }
 
-        return this._constrainAngle_0_360(this.steps * 360.0 / this.totalSteps);
+        return this._constrainAngle_0_360(this.steps * 360.0 / this.lastIterationSteps);
     }
 
     _constrainAngle_0_360(dx) {
@@ -31,7 +40,7 @@ module.exports = class MovementService {
             constrainedX += 360.0;
         }
 
-        return constrainedX;
+        return Math.round(constrainedX);
     }
 
     _isNotCalibrated() {
